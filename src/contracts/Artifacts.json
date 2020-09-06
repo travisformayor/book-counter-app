@@ -1,0 +1,11 @@
+{
+  "contracts":
+  {
+    "contracts/Counter.sol:Counter":
+    {
+      "abi": "[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"newValue\",\"type\":\"uint256\"}],\"name\":\"Increased\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"increase\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"value\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}]",
+      "bin": "6080604052348015600f57600080fd5b5060de8061001e6000396000f3fe6080604052348015600f57600080fd5b506004361060325760003560e01c80633fa4f245146037578063e8927fbc146053575b600080fd5b603d605b565b6040518082815260200191505060405180910390f35b60596061565b005b60005481565b6001600054016000819055507f3496c3ede4ec3ab3686712aa1c238593ea6a42df83f98a5ec7df9834cfa577c56000546040518082815260200191505060405180910390a156fea2646970667358221220243a424f946f86035ce2e0ae8fad7fa48b5d477ecb1716eab18318bd9a3086c164736f6c63430007010033"
+    }
+  },
+  "version": "0.7.1+commit.f4a555be.Darwin.appleclang"
+}
