@@ -16,7 +16,16 @@ export default function Counter({ contract }) {
     console.log(initialValue);
   }, [initialValue]);
 
+  function increaseCounter() {
+    return contract.methods.increase().send();
+  }
+
   return (
-    <div>{initialValue ? `Counter value: ${initialValue}` : 'Loading...'}</div>
+    <>
+      <div>
+        {initialValue ? `Counter value: ${initialValue}` : 'Loading...'}
+      </div>
+      <button onClick={() => increaseCounter()}>Increase Counter</button>
+    </>
   );
 }
