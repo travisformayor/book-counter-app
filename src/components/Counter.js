@@ -1,31 +1,54 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 export default function Counter({ contract }) {
-  const [initialValue, setInitialValue] = useState(null);
+  const [value, setValue] = useState(null);
+  const [updating, setUpdating] = useState(false);
+  const [error, setError] = useState(null);
+
+  const fetchValue = useCallback(async () => {
+    const initialValue = await contract.methods.value().call();
+    setValue(initialValue);
+  }, [contract]);
 
   useEffect(() => {
-    if (!initialValue) {
-      (async () => {
-        const initialValue = await contract.methods.value().call();
-        setInitialValue(initialValue);
-      })();
+    // Load current value on component mount
+    if (!value) {
+      fetchValue();
     }
   });
 
   useEffect(() => {
-    console.log(initialValue);
-  }, [initialValue]);
+    // Update value when 'updating' toggled true
+    if (updating && contract) {
+      // Reset any previous errors
+      setError(null);
+      // Send transaction
+      contract.methods
+        .increase()
+        .send()
+        .on('receipt', () => {
+          fetchValue();
+          setUpdating(false);
+        })
+        .on('error', (error) => {
+          setError(error);
+          setUpdating(false);
+        });
+    }
+  }, [updating, contract, fetchValue]);
 
-  function increaseCounter() {
-    return contract.methods.increase().send();
-  }
+  useEffect(() => {
+    console.log(value);
+  }, [value]);
 
   return (
     <>
-      <div>
-        {initialValue ? `Counter value: ${initialValue}` : 'Loading...'}
-      </div>
-      <button onClick={() => increaseCounter()}>Increase Counter</button>
+      <div>{value ? `Counter value: ${value}` : 'Loading...'}</div>
+      <button onClick={() => setUpdating(true)} disabled={!!updating}>
+        Increase Counter
+      </button>
+      <div>{updating && 'Awaiting Transaction'}</div>
+      <div>{error && error.message}</div>
     </>
   );
 }
